@@ -1,0 +1,1 @@
+python3 val.py --config configs/upernet/upernet_resnet101_os8_cityscapes_512x1024_40k.yml  --model_path upernet_cityscapes_b8/best_model/model.pdparams
