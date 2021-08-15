@@ -1,5 +1,5 @@
 # UPerNet-paddle
-paddle version for UPerNet
+paddle version for [UPerNet](https://arxiv.org/pdf/1807.10221v1.pdf)
 
 
 0. 本复现基于paddle-seg，安装环境时运行pip install -r requirements.txt。
@@ -7,6 +7,7 @@ paddle version for UPerNet
 2. log文件位于upernet_cityscapes_b8文件夹中log下，共有三个，是因为本次训练中途中断了两次，因此共有三个log文件，mIoU训练中测试结果如下：
 ![](./upernet_cityscapes_b8/mIoU.png)
 3. 运行环境为租用的2*V100 32G，一张卡4张图，运行40k，最高精度为80.2。
+4. 原版模型为多任务训练，但是由于cityscapes无其他任务监督，因此该复现只预测语义分割结果。
 
 模型文件和以及log放置位置:
 
