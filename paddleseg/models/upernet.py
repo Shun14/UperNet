@@ -167,10 +167,10 @@ class UPerNetHead(nn.Layer):
             f = conv_x + F.interpolate(f, prev_shape, mode='bilinear', align_corners=True)
             fpn_feature_list.append(self.fpn_out[i](f))
         fpn_feature_list.reverse()
-        output_size = fpn_feature_list[0].shape
+        output_size = fpn_feature_list[0].shape[2:]
         # resize multi-scales feature
         for index in range(len(conv_out)-1, 0, -1):
-            fpn_feature_list = F.interpolate(
+            fpn_feature_list[index] = F.interpolate(
                 fpn_feature_list[index],
                 size=output_size,
                 mode='bilinear',
