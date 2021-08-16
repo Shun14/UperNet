@@ -10,6 +10,7 @@ model:
     output_stride: 8
     pretrained: https://bj.bcebos.com/paddleseg/dygraph/resnet101_vd_ssld.tar.gz
   backbone_indices: [0, 1, 2, 3]
+  channels: 256
 
 train_dataset:
   transforms:
