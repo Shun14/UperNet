@@ -11,4 +11,3 @@ scipy
 prettytable
 paddlepaddle-gpu==2.1.2
 cypython
-pip install git+https://github.com/lucasb-eyer/pydensecrf.git
