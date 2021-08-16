@@ -162,7 +162,7 @@ class UPerNetHead(nn.Layer):
         out = []
         for i in reversed(range(len(conv_out) - 1)):
             conv_x = conv_out[i]
-            conv_x = self.fpn_in[i](conv_x)
+            conv_x = self.lateral_convs[i](conv_x)
             prev_shape = paddle.shape(conv_x)[2:]
             f = conv_x + F.interpolate(f, prev_shape, mode='bilinear', align_corners=True)
             fpn_feature_list.append(self.fpn_out[i](f))
