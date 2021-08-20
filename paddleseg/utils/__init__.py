@@ -20,4 +20,3 @@ from .utils import *
 from .timer import TimeAverager, calculate_eta
 from . import visualize
 from .config_check import config_check
-from .crf import DenseCRF

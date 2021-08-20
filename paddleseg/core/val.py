@@ -19,7 +19,7 @@ import time
 import paddle
 import paddle.nn.functional as F
 
-from paddleseg.utils import metrics, TimeAverager, calculate_eta, logger, progbar, DenseCRF
+from paddleseg.utils import metrics, TimeAverager, calculate_eta, logger, progbar
 from paddleseg.core import infer
 
 np.set_printoptions(suppress=True)
@@ -35,7 +35,7 @@ def evaluate(model,
              stride=None,
              crop_size=None,
              num_workers=0,
-             print_detail=True, use_crf=False, crf_iter_max=10, crf_pos_xy_std=1, crf_pos_w=3, crf_bi_xy_std=67, crf_bi_rgb_std=3, crf_bi_w=4):
+             print_detail=True):
     """
     Launch evalution.
 
@@ -88,14 +88,6 @@ def evaluate(model,
     reader_cost_averager = TimeAverager()
     batch_cost_averager = TimeAverager()
     batch_start = time.time()
-    if use_crf:
-        crfPost = DenseCRF(
-            iter_max=crf_iter_max,
-            pos_xy_std=crf_pos_xy_std,
-            pos_w=crf_pos_w,
-            bi_xy_std=crf_bi_xy_std,
-            bi_rgb_std=crf_bi_rgb_std,
-            bi_w=crf_bi_w)
     with paddle.no_grad():
         for iter, (im, label) in enumerate(loader):
             reader_cost_averager.record(time.time() - batch_start)
@@ -122,13 +114,7 @@ def evaluate(model,
                     is_slide=is_slide,
                     stride=stride,
                     crop_size=crop_size)
-            if use_crf:
-                prob = F.softmax(pred, axis=1)[0].numpy()
-                image = im.numpy()[0].astype(np.uint8).transpose(1, 2, 0)
-                prob = crfPost(image, prob)
-                pred = paddle.to_tensor(np.argmax(prob, axis=0)[np.newaxis][np.newaxis])
-            else:
-                pred = paddle.argmax(pred, axis=1, keepdim=True, dtype='int32')
+            pred = paddle.argmax(pred, axis=1, keepdim=True, dtype='int32')
             intersect_area, pred_area, label_area = metrics.calculate_area(
                 pred,
                 label,
